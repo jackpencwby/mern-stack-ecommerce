@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const connectDatabase = require("./config/database");
 const authRouter = require("./routes/auth");
+const categoryRouter = require("./routes/category");
 
 const app = express();
 const port = 8080;
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRouter);
+app.use("/api/category", categoryRouter);
 
 app.listen(port, async () => {
     await connectDatabase();

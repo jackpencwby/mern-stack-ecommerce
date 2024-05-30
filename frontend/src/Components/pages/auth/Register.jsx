@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/en-gb';
-import { register } from '../../api/auth';
+import { register } from '../../../api/auth';
 
 function Copyright(props) {
     return (
