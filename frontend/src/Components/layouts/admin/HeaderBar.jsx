@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Box, ListItemIcon } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Link } from 'react-router-dom';
+import { logout } from '../../../api/auth';
 
 function HeaderBar() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -54,7 +56,9 @@ function HeaderBar() {
                             onClose={handleClose}
                         >
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <Link onClick={logout} to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+                                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            </Link>
                         </Menu>
                     </div>
                 </Toolbar>

@@ -1,15 +1,15 @@
 const express = require("express");
-const { readAllCategory, readCategory, createCategory, updateCategory, deleteCategory } = require("../controllers/category");
+const { getAllCategory, getCategory, createCategory, updateCategory, deleteCategory } = require("../controllers/category");
 const auth = require("../middlewares/auth");
 const checkAdmin = require("../middlewares/checkAdmin");
 
 const router = express.Router();
 
 // http://localhost:8080/api/category
-router.get("/", auth, readAllCategory);
+router.get("/", auth, getAllCategory);
 
-// http://localhost:8080/api/category?id=
-router.get("/:id", auth, readCategory);
+// http://localhost:8080/api/category/:id
+router.get("/:id", auth, getCategory);
 
 // http://localhost:8080/api/category
 router.post("/", auth, checkAdmin, createCategory);

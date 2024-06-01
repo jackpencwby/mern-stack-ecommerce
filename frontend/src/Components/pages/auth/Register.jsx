@@ -18,6 +18,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/en-gb';
 import { register } from '../../../api/auth';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
     return (
@@ -37,11 +39,15 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Register() {
+    const navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         try {
             event.preventDefault();
+
             const data = new FormData(event.currentTarget);
-            const response = await register({
+
+            await register({
                 fullname: data.get('fullname'),
                 birthday: data.get('birthday'),
                 phone_number: data.get('phone_number'),
@@ -49,10 +55,31 @@ export default function Register() {
                 password: data.get('password'),
                 confirm_password: data.get('confirm_password')
             });
-            console.log(response.data);
+
+            toast.success("สมัครสมาชิกสำเร็จ", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light"
+            });
+
+            navigate('/login');
         }
         catch (error) {
-            console.log(error);
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored"
+            });
         }
     };
 

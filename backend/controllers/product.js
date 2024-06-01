@@ -1,9 +1,10 @@
+const Product = require("../models/product");
 const Category = require("../models/category");
 
-async function getAllCategory(req, res) {
+async function getAllProduct(req, res) {
     try {
-        const category = await Category.find().exec();
-        res.status(200).json(category);
+        const products = await Product.find().populate("category");
+        res.status(200).json(products);
     }
     catch (error) {
         console.error(error.message);
@@ -13,14 +14,14 @@ async function getAllCategory(req, res) {
     }
 }
 
-async function getCategory(req, res) {
+async function getProduct(req, res) {
     try {
         const id = req.params.id;
-        const category = await Category.findOne({ _id: id }).exec();
-        if (!category) {
-            throw { statusCode: 404, message: "ไม่พบข้อมูลของหมวดหมู่นี้" };
+        const product = await Product.findOne({ _id: id }).populate("category");
+        if (!product) {
+            throw { statusCode: 404, message: "ไม่พบข้อมูลของสินค้านี้" };
         }
-        res.status(200).json(category);
+        res.status(200).json(product);
     }
     catch (error) {
         const statusCode = error.statusCode || 500;
@@ -30,17 +31,30 @@ async function getCategory(req, res) {
     }
 }
 
-async function createCategory(req, res) {
+async function createProduct(req, res) {
     try {
-        const { name } = req.body;
-        if (!name) {
+        const { name, price, category, quantity } = req.body;
+        const image = req.file;
+
+        if (!name || !price || !category || !quantity || !image) {
+            if (image) {
+                fs.unlinkSync(`./files/ProductImages/${image.filename}`);
+            }
             throw { statusCode: 400, message: "กรุณาใส่ข้อมูลให้ครบ" };
         }
 
-        const category = await new Category({
-            name
+        const {_id: ObjectIdCategory} = await Category.findOne({name: category});
+
+        const newProduct = new Product({
+            name,
+            price,
+            image: image.filename,
+            quantity,
+            category: ObjectIdCategory
         });
-        category.save();
+        await newProduct.save();
+
+        await Category.updateOne({_id: ObjectIdCategory}, {$push : {products: newProduct._id}});
 
         res.status(201).json({
             message: "Create Successfully"
@@ -54,7 +68,7 @@ async function createCategory(req, res) {
     }
 }
 
-async function updateCategory(req, res) {
+async function updateProduct(req, res) {
     try {
         const id = req.query.id;
         const name = req.body.name;
@@ -78,7 +92,7 @@ async function updateCategory(req, res) {
     }
 }
 
-async function deleteCategory(req, res) {
+async function deleteProduct(req, res) {
     try {
         const id = req.query.id;
 
@@ -96,4 +110,4 @@ async function deleteCategory(req, res) {
     }
 }
 
-module.exports = { getAllCategory, getCategory, createCategory, updateCategory, deleteCategory };
+module.exports = { getAllProduct, getProduct, createProduct, updateProduct, deleteProduct };

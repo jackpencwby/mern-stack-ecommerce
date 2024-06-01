@@ -41,7 +41,7 @@ function AdminRoute({ children }) {
             <SideBar />
             <Box
                 component="main"
-                sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, ml: `${drawerWidth}px` }}
+                sx={{ flexGrow: 1, backgroundImage: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', height: '100vh', p: 3, ml: `${drawerWidth}px`  }}
             >
                 <Toolbar />
                 <Typography paragraph>

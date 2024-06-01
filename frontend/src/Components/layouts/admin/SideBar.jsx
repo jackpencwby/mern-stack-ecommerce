@@ -8,6 +8,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Link } from 'react-router-dom';
+import { logout } from '../../../api/auth';
 
 const drawerWidth = 250;
 
@@ -37,12 +39,14 @@ function SideBar() {
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <HomeOutlinedIcon style={{ color: 'white' }} />
-                            </ListItemIcon>
-                            <ListItemText primary="Home" primaryTypographyProps={{ style: { color: 'white' } }} />
-                        </ListItem>
+                        <Link to="/admin/home" style={{ textDecoration: 'none' }}>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <HomeOutlinedIcon style={{ color: 'white' }} />
+                                </ListItemIcon>
+                                <ListItemText primary="Home" primaryTypographyProps={{ style: { color: 'white' } }} />
+                            </ListItem>
+                        </Link>
 
                         <ListItem button onClick={() => handleClick('addCategory')}>
                             <ListItemIcon>
@@ -53,18 +57,22 @@ function SideBar() {
                         </ListItem>
                         <Collapse in={openItems.addCategory} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItem button sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <TableRowsIcon style={{ color: 'white' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Category" primaryTypographyProps={{ style: { color: 'white' } }} />
-                                </ListItem>
-                                <ListItem button sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <TableRowsIcon style={{ color: 'white' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Product" primaryTypographyProps={{ style: { color: 'white' } }} />
-                                </ListItem>
+                                <Link to="/admin/table/categories" style={{ textDecoration: 'none' }}>
+                                    <ListItem button sx={{ pl: 4 }}>
+                                        <ListItemIcon>
+                                            <TableRowsIcon style={{ color: 'white' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Category" primaryTypographyProps={{ style: { color: 'white' } }} />
+                                    </ListItem>
+                                </Link>
+                                <Link to="/admin/table/products" style={{ textDecoration: 'none' }}>
+                                    <ListItem button sx={{ pl: 4 }}>
+                                        <ListItemIcon>
+                                            <TableRowsIcon style={{ color: 'white' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Product" primaryTypographyProps={{ style: { color: 'white' } }} />
+                                    </ListItem>
+                                </Link>
                             </List>
                         </Collapse>
 
@@ -77,30 +85,36 @@ function SideBar() {
                         </ListItem>
                         <Collapse in={openItems.manageUsers} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItem button sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <PersonIcon style={{ color: 'white' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Admin" primaryTypographyProps={{ style: { color: 'white' } }} />
-                                </ListItem>
-                                <ListItem button sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <AdminPanelSettingsIcon style={{ color: 'white' }} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="User" primaryTypographyProps={{ style: { color: 'white' } }} />
-                                </ListItem>
+                                <Link to="/admin/manage/admin" style={{ textDecoration: 'none' }}>
+                                    <ListItem button sx={{ pl: 4 }}>
+                                        <ListItemIcon>
+                                            <PersonIcon style={{ color: 'white' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Admin" primaryTypographyProps={{ style: { color: 'white' } }} />
+                                    </ListItem>
+                                </Link>
+                                <Link to="/admin/manage/user" style={{ textDecoration: 'none' }}>
+                                    <ListItem button sx={{ pl: 4 }}>
+                                        <ListItemIcon>
+                                            <AdminPanelSettingsIcon style={{ color: 'white' }} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="User" primaryTypographyProps={{ style: { color: 'white' } }} />
+                                    </ListItem>
+                                </Link>
                             </List>
                         </Collapse>
                     </List>
 
                     <hr />
 
-                    <ListItem button>
-                        <ListItemIcon>
-                            <LogoutIcon style={{ color: 'white' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Logout" primaryTypographyProps={{ style: { color: 'white' } }} />
-                    </ListItem>
+                    <Link onClick={logout} to="/login" style={{ textDecoration: 'none' }}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <LogoutIcon style={{ color: 'white' }} />
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" primaryTypographyProps={{ style: { color: 'white' } }} />
+                        </ListItem>
+                    </Link>
                 </Box>
             </Drawer>
 

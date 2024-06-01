@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { login } from '../../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
     return (
@@ -54,7 +55,16 @@ export default function Login() {
             }
         }
         catch (error) {
-            console.log(error);
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored"
+            });
         }
     };
 

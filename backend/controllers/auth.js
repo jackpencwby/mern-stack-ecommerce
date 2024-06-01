@@ -76,7 +76,7 @@ async function login(req, res) {
         const token = await jwt.sign(payload, signature, { expiresIn: "1h" });
 
         res.cookie("token", token, {
-            maxAge: 30000,
+            maxAge: 600000,
             secure: true,
             httpOnly: true,
             sameSite: "none"
