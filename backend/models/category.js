@@ -6,7 +6,7 @@ const categorySchema = mongoose.Schema({
     },
     products: {
         type: [mongoose.Schema.ObjectId],
-        ref: "products",
+        ref: "product",
         default: []
     }
 });

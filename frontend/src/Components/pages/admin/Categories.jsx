@@ -36,7 +36,7 @@ function Categories() {
 
 			await getAllData();
 
-			toast.success("เพิ่มรายการสินค้าสำเร็จ", {
+			toast.success("เพิ่มหมวดหมู่สินค้าสำเร็จ", {
                 position: "top-center",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -125,7 +125,7 @@ function Categories() {
 											<DeleteIcon color='error' onClick={async () => {
 												await deleteCategory(category._id)
 												await getAllData();
-												toast.error("ลบรายการสินค้าสำเร็จ", {
+												toast.error("ลบหมวดหมู่สินค้าสำเร็จ", {
 													position: "top-center",
 													autoClose: 3000,
 													hideProgressBar: false,

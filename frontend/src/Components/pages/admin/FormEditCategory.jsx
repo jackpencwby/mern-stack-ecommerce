@@ -18,7 +18,7 @@ function FormEditCategory() {
                 name: data.get('name')
             });
 
-            toast.success("เเก้ไขข้อมูลสินค้าสำเร็จ", {
+            toast.success("เเก้ไขข้อมูลหมวดหมู่สินค้าสำเร็จ", {
                 position: "top-center",
                 autoClose: 3000,
                 hideProgressBar: false,

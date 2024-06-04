@@ -11,6 +11,7 @@ import Products from "./Components/pages/admin/Products"
 import ManageAdmins from "./Components/pages/admin/ManageAdmins"
 import ManageUsers from "./Components/pages/admin/ManageUsers"
 import FormEditCategory from "./Components/pages/admin/FormEditCategory"
+import FormEditProduct from "./Components/pages/admin/FormEditProduct"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -51,6 +52,13 @@ function App() {
 					<Route path="/admin/table/products" element={
 						<AdminRoute>
 							<Products />
+						</AdminRoute>
+					}
+					/>
+
+					<Route path="/admin/edit/product/:id" element={
+						<AdminRoute>
+							<FormEditProduct />
 						</AdminRoute>
 					}
 					/>

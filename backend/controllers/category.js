@@ -1,9 +1,12 @@
 const Category = require("../models/category");
+const Product = require("../models/product");
+const fs = require("fs");
 
 async function getAllCategory(req, res) {
     try {
-        const category = await Category.find().exec();
-        res.status(200).json(category);
+        const categories = await Category.find().populate("products");
+
+        res.status(200).json(categories);
     }
     catch (error) {
         console.error(error.message);
@@ -16,10 +19,12 @@ async function getAllCategory(req, res) {
 async function getCategory(req, res) {
     try {
         const id = req.params.id;
-        const category = await Category.findOne({ _id: id }).exec();
+
+        const category = await Category.findOne({ _id: id }).populate("products");
         if (!category) {
             throw { statusCode: 404, message: "ไม่พบข้อมูลของหมวดหมู่นี้" };
         }
+
         res.status(200).json(category);
     }
     catch (error) {
@@ -37,10 +42,7 @@ async function createCategory(req, res) {
             throw { statusCode: 400, message: "กรุณาใส่ข้อมูลให้ครบ" };
         }
 
-        const category = await new Category({
-            name
-        });
-        category.save();
+        await new Category({ name }).save();
 
         res.status(201).json({
             message: "Create Successfully"
@@ -57,14 +59,11 @@ async function createCategory(req, res) {
 async function updateCategory(req, res) {
     try {
         const id = req.query.id;
-        const name = req.body.name;
+        const { name } = req.body;
 
-        const category = await Category.findOne({ _id: id }).exec();
+        const categoryInDatabase = await Category.findOne({ _id: id });
 
-        const newCategory = {
-            name: name || category.name
-        }
-        await Category.updateOne({ _id: id }, { $set: newCategory }).exec();
+        await Category.updateOne({ _id: id }, { $set: { name: name || categoryInDatabase.name } });
 
         res.status(200).json({
             message: "Edit Successfully"
@@ -82,7 +81,12 @@ async function deleteCategory(req, res) {
     try {
         const id = req.query.id;
 
-        await Category.deleteOne({ _id: id });
+        const categoryInDatabase = await Category.findOneAndDelete({ _id: id }).populate("products");
+
+        for (const product of categoryInDatabase.products) {
+            fs.unlinkSync(`./files/ProductImages/${product.image}`);
+            await Product.deleteOne({ _id: product._id })
+        }
 
         res.status(200).json({
             message: "Delete Successfully"
